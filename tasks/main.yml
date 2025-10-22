@@ -1,0 +1,29 @@
+- name: Update and upgrade apt packages
+  become: true
+  ansible.builtin.apt:
+    upgrade: false
+    update_cache: true
+    cache_valid_time: 86400 # One day
+
+- name: Install fail2ban
+  apt:
+    name: fail2ban
+    state: present
+  when: ansible_os_family == 'Debian'
+  become: true
+
+- name: Start fail2ban service
+  service:
+    name: fail2ban
+    state: started
+  become: true
+
+- name: Enable fail2ban service
+  service:
+    name: fail2ban
+    enabled: true
+  become: true
+
+- name: Copy jail.conf
+  template: src=jail.local.j2 dest=/etc/fail2ban/jail.d/jail.local
+  notify: restart fail2ban

@@ -1,0 +1,8 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  tasks:
+    - name: "Include jtsn.fail2ban"
+      ansible.builtin.include_role:
+        name: "jimtsn.fail2ban"

@@ -1,0 +1,25 @@
+---
+- name: Ensure fail2ban is installed
+  package:
+    name: fail2ban
+    state: present
+  register: fail2ban_package
+
+- name: Check fail2ban service status
+  systemd:
+    name: fail2ban
+    state: started
+    enabled: true
+  register: fail2ban_service
+
+- name: Verify fail2ban configuration
+  command: fail2ban-client status
+  changed_when: false
+  register: fail2ban_status
+
+- name: Assert fail2ban is working correctly
+  assert:
+    that:
+      - fail2ban_package is not changed
+      - fail2ban_service is not changed
+      - fail2ban_status.rc == 0
