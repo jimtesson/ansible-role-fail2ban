@@ -3,6 +3,6 @@
   hosts: all
   become: true
   tasks:
-    - name: "Include jtsn.fail2ban"
+    - name: "Include jimteson.fail2ban"
       ansible.builtin.include_role:
         name: "jimtesson.fail2ban"
