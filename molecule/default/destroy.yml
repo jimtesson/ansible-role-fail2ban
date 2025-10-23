@@ -33,17 +33,3 @@
         dest: "{{ molecule_instance_config }}"
         mode: "0600"
       when: server.changed | bool
-
-    - name: Load vars
-      ansible.builtin.include_vars:
-        file: vars.yml
-
-    - name: remove private key used for test
-      ansible.builtin.file:
-        path: "{{ ssh_key_path }}"
-        state: absent
-
-    - name: remove public key used for test
-      ansible.builtin.file:
-        path: "{{ ssh_key_path }}.pub"
-        state: absent

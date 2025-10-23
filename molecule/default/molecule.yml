@@ -11,7 +11,7 @@ driver:
       memory: 192
       cpus: 2
 platforms:
-  - name: bootstrapServer01
+  - name: testServer01
     box: debian/bookworm64
 provisioner:
   name: ansible
