@@ -9,20 +9,40 @@ Setup requirements
   pip install -r requirements.txt
 ```
 
-Run tests on local vagrant instance
+Role Name
 =========
 
-  ## Run local vm @192.168.56.30
-    git clone git@github.com:jimtesson/vagrant-vm-for-tests.git
-    cd vagrant-vm-for-tests
-    vagrant up ionosVps
+Bootstrap a new server, with new user, ssh access and basic os-hardening.
 
-  ## Run ansible
-    ssh-keygen -f ~/.ssh/known_hosts -R 192.168.56.30
-    ansible -i ./inventory/hosts-tests.yml ionos_vps_test -m ping
-    ansible-playbook -i ./inventory/hosts.yml ./main.yml -l testing
+Role Variables
+--------------
 
-Prod provisionning
-=========
+You must specify the new user(s) details (name, pwd, authorized ssh key).
 
-    ansible-playbook -i ./inventory/hosts.yml ./main.yml -l prod
+   fail2ban_maxretry: 3
+  fail2ban_bantime: 86400 # 1 day
+  # time window (in seconds) where the maxretry times should occur
+  fail2ban_findtime: 3600 # 1 hour
+  fail2ban_whitelist_all: '127.0.0.1' 
+ 
+Tests
+----------------
+
+```
+  # create the instance
+  molecule create
+
+  # apply the playbook
+  molecule converge
+
+  # test the playbook
+  molecule verify
+
+  # destroy the instance
+  molecule destroy  
+```
+
+License
+-------
+
+BSD
