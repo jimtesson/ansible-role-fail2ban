@@ -9,22 +9,43 @@ Setup requirements
   pip install -r requirements.txt
 ```
 
-Role Name
+Fail2Ban
 =========
 
-Bootstrap a new server, with new user, ssh access and basic os-hardening.
+Basic setup of fail2ban for sshd
 
 Role Variables
 --------------
 
 You must specify the new user(s) details (name, pwd, authorized ssh key).
 
-   fail2ban_maxretry: 3
+```
+  fail2ban_maxretry: 3
   fail2ban_bantime: 86400 # 1 day
   # time window (in seconds) where the maxretry times should occur
   fail2ban_findtime: 3600 # 1 hour
-  fail2ban_whitelist_all: '127.0.0.1' 
- 
+  fail2ban_whitelist_all: '127.0.0.1'
+```
+
+
+Example
+----------------
+
+```
+  - hosts: webservers
+    tasks:
+      - name: "Include fail2ban role"
+        ansible.builtin.include_role:
+          name: "jimtesson.fail2ban"
+          vars:
+            fail2ban_maxretry: 3
+            fail2ban_bantime: 86400 # 1 day
+            fail2ban_findtime: 3600 # 1 hour
+            fail2ban_whitelist_all: '127.0.0.1' 
+
+```
+
+
 Tests
 ----------------
 
